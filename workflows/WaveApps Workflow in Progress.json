@@ -1,0 +1,131 @@
+{
+  "active": false,
+  "connections": {
+    "Get Invoices": {
+      "main": [
+        [
+          {
+            "node": "Get Customer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Get Invoices",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-05-05T03:32:06.770Z",
+  "id": "Orbh29Py4E6EpMli",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "WaveApps Workflow in Progress",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gql.waveapps.com/graphql/public",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json[\"Bearer\"] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"operationName\":null,\"variables\":{\"businessId\":\"{{ $json[\"BusinessId\"] }}\",\"page\":1,\"pageSize\":20,\"status\":\"SENT\"},\"query\":\"query ($businessId: ID!, $page: Int!, $pageSize: Int!, $status: InvoiceStatus!) {\\n  business(id: $businessId) {\\n    id\\n    isClassicInvoicing\\n    invoices(page: $page, pageSize: $pageSize, status: $status) {\\n      pageInfo {\\n        currentPage\\n        totalPages\\n        totalCount\\n      }\\n      edges {\\n        node {\\n          id\\n          createdAt\\n          modifiedAt\\n          pdfUrl\\n          viewUrl\\n          status\\n          title\\n          subhead\\n          invoiceNumber\\n          invoiceDate\\n          poNumber\\n          customer {\\n            id\\n            name\\n          }\\n          currency {\\n            code\\n          }\\n          dueDate\\n          amountDue {\\n            value\\n            currency {\\n              symbol\\n            }\\n          }\\n          amountPaid {\\n            value\\n            currency {\\n              symbol\\n            }\\n          }\\n          taxTotal {\\n            value\\n            currency {\\n              symbol\\n            }\\n          }\\n          total {\\n            value\\n            currency {\\n              symbol\\n            }\\n          }\\n          exchangeRate\\n          footer\\n          memo\\n          disableCreditCardPayments\\n          disableBankPayments\\n          itemTitle\\n          unitTitle\\n          priceTitle\\n          amountTitle\\n          hideName\\n          hideDescription\\n          hideUnit\\n          hidePrice\\n          hideAmount\\n          items {\\n            product {\\n              id\\n              name\\n            }\\n            description\\n            quantity\\n            price\\n            subtotal {\\n              value\\n              currency {\\n                symbol\\n              }\\n            }\\n            total {\\n              value\\n              currency {\\n                symbol\\n              }\\n            }\\n            account {\\n              id\\n              name\\n              subtype {\\n                name\\n                value\\n              }\\n            }\\n            taxes {\\n              amount {\\n                value\\n              }\\n              salesTax {\\n                id\\n                name\\n              }\\n            }\\n          }\\n          lastSentAt\\n          lastSentVia\\n          lastViewedAt\\n        }\\n      }\\n    }\\n  }\\n}\\n\"}",
+        "options": {}
+      },
+      "id": "8e691450-160b-44fc-b965-bfbf1e7494ae",
+      "name": "Get Invoices",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        980,
+        100
+      ],
+      "credentials": {
+        "oAuth2Api": {
+          "id": "sFG6b6SzKrjoaZug",
+          "name": "WaveApps"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gql.waveapps.com/graphql/public",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $node[\"Set\"].json[\"Bearer\"] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\t\"operationName\": null,\n\t\"variables\": {\n\t\t\"businessId\": \"{{ $node[\"Set\"].json[\"BusinessId\"] }}\",\n\t\t\"customerId\": \"{{ $node[\"Get Invoices\"].json[\"data\"][\"business\"][\"invoices\"][\"edges\"][0][\"node\"][\"customer\"][\"id\"] }}\"\n\t},\n\t\"query\": \"query ($businessId: ID!, $customerId: ID!) {\\n  business(id: $businessId) {\\n    id\\n    customer(id: $customerId) {\\n      id\\n      name\\n      firstName\\n      lastName\\n      email\\n      mobile\\n      phone\\n      fax\\n      tollFree\\n      website\\n      address {\\n        addressLine1\\n        addressLine2\\n        city\\n        province {\\n          code\\n          name\\n        }\\n        country {\\n          code\\n          name\\n        }\\n        postalCode\\n      }\\n      shippingDetails {\\n        name\\n        phone\\n        instructions\\n        address {\\n          addressLine1\\n          addressLine2\\n          city\\n          province {\\n            code\\n            name\\n          }\\n          country {\\n            code\\n            name\\n          }\\n          postalCode\\n        }\\n      }\\n      currency {\\n        code\\n        name\\n        symbol\\n      }\\n      createdAt\\n      modifiedAt\\n      overdueAmount {\\n        raw\\n        value\\n      }\\n      outstandingAmount {\\n        raw\\n        value\\n      }\\n    }\\n  }\\n}\\n\"\n}",
+        "options": {}
+      },
+      "id": "098b06ae-b594-4d3d-9b41-ed533f39f7b2",
+      "name": "Get Customer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "Bearer",
+              "value": "<Get using their documentation>"
+            },
+            {
+              "name": "BusinessId",
+              "value": "<easiest to get using their API playground>"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c850c9cf-8aa2-484f-be4f-329fe3a6b069",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        720,
+        100
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-05-05T20:13:25.000Z",
+  "versionId": "2fba7c2c-baca-4c2a-8449-643dd4d3f4d2"
+}
