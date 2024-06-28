@@ -1,0 +1,122 @@
+{
+  "active": false,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-02-15T17:03:29.123Z",
+  "id": "aPU2bXquOZGuhfWr",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Google Calendar event to GMail",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "id": "00ca269f-3d24-4817-877c-1407cedddd46",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        820,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "id": "3f46eee8-0870-4b2f-b22a-00dd0630d661",
+      "name": "Google Calendar",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Filter events with a specific keyword and starting within the next 15 to 20 minutes\nconst keyword = 'EMDR';\nconst upcomingEvents = items.filter(item => {\n  const eventStart = new Date(item.json.start.dateTime);\n  const now = new Date();\n  const diffMinutes = (eventStart - now) / 60000; // Convert milliseconds to minutes\n  return item.json.summary.includes(keyword) && diffMinutes > 15 && diffMinutes <= 20;\n});\n\nreturn upcomingEvents.map(event => ({\n  json: {\n    name: event.json.summary,\n    location: event.json.location || 'N/A', // Some events might not have a location\n    description: event.json.description || 'No description',\n    start: event.json.start.dateTime,\n    end: event.json.end.dateTime\n  }\n}));\n"
+      },
+      "id": "abc5c0b9-5164-4f16-a831-f8179ed2ca4e",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1240,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "message": "Event Name: {{$node[\"Function\"].json[\"name\"]}} Location: {{$node[\"Function\"].json[\"location\"]}} Description: {{$node[\"Function\"].json[\"description\"]}} Start Time: {{$node[\"Function\"].json[\"start\"]}} End Time: {{$node[\"Function\"].json[\"end\"]}}",
+        "options": {
+          "senderName": ""
+        }
+      },
+      "id": "c3fabe19-c5dd-4d6a-806d-90f4d29480bf",
+      "name": "Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1460,
+        380
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-02-15T17:37:56.000Z",
+  "versionId": "e5ba2ca8-2f09-4f51-9b4d-3705b463e706"
+}
