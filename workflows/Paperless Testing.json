@@ -1,0 +1,65 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Paperless NGX1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-06-21T04:03:38.913Z",
+  "id": "DwWMKGeH4gPsN2C3",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Paperless Testing",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "3aa95e12-ea2c-44b4-a930-2be52e195ad3",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        820,
+        400
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "authentication": "headerAuth",
+        "url": "https://paperless.dogiakos.com/api/documents/",
+        "options": {}
+      },
+      "name": "Paperless NGX1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        400
+      ],
+      "id": "274b0f06-343e-4f9e-a619-ca138f82d74a",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Ierfg7iojjDaR8rT",
+          "name": "Header Auth account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-06-21T04:16:06.000Z",
+  "versionId": "4a2fa35a-8dab-4d17-b1f5-5a09ca513c46"
+}
