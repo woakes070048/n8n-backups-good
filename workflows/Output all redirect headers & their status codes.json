@@ -1,0 +1,265 @@
+{
+  "active": false,
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Data to Keep",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set URL": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Location Header Empty?": {
+      "main": [
+        [
+          {
+            "node": "Finished Looping",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Redirect URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Redirect URL": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finished Looping": {
+      "main": [
+        [
+          {
+            "node": "Merge Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data to Keep": {
+      "main": [
+        [
+          {
+            "node": "Location Header Empty?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-05-05T04:24:59.968Z",
+  "id": "57cOl9L4uZZIKIFr",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Output all redirect headers & their status codes",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        460,
+        460
+      ],
+      "id": "ec3a667f-b411-4512-99e8-946c445f079a"
+    },
+    {
+      "parameters": {
+        "url": "={{$json[\"url\"]}}",
+        "responseFormat": "string",
+        "dataPropertyName": "body",
+        "options": {
+          "fullResponse": true,
+          "followAllRedirects": false,
+          "followRedirect": false,
+          "ignoreResponseCode": true
+        }
+      },
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        860,
+        460
+      ],
+      "id": "106ad752-6962-4feb-8f53-050260a696bf"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "url",
+              "value": "https://dogiakos.com"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Set URL",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        660,
+        460
+      ],
+      "id": "4fb17bcc-b4e3-4a88-86f4-6b45b103e35f"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"next_url\"]}}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "name": "Location Header Empty?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1260,
+        460
+      ],
+      "id": "c71404c6-0c51-47ef-a61e-7920c497c8f9"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "url",
+              "value": "={{$json[\"next_url\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Set Redirect URL",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        660,
+        320
+      ],
+      "id": "c65adbc3-ef5a-4cc0-a712-a029f09c3eaa"
+    },
+    {
+      "parameters": {},
+      "name": "Finished Looping",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        460
+      ],
+      "id": "872a40c3-aa43-4803-8336-5f172d0877b7"
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "={{$json[\"statusCode\"]}}"
+            },
+            {
+              "name": "next_url",
+              "value": "={{$json[\"headers\"][\"location\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Data to Keep",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        460
+      ],
+      "id": "ba66825c-dd0c-4f33-944d-943e1294e363"
+    },
+    {
+      "parameters": {
+        "functionCode": "let redirectList = []\n\nlet i = 0;\ndo {\n  try {\n    const items = $items(\"Data to Keep\", 0, i);\n    redirectList = redirectList.concat(items);\n  } catch (error) {\n    return redirectList;  \n  }\n  i ++;\n} while(true);\n\n\n"
+      },
+      "name": "Merge Data",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        1660,
+        460
+      ],
+      "typeVersion": 1,
+      "id": "5a04eee4-5425-41f0-87bb-5da04f3dc17c"
+    },
+    {
+      "parameters": {
+        "content": "## Origin\n[Output all redirect headers and their status codes](https://community.n8n.io/t/output-all-redirect-headers-and-their-status-codes/9353)",
+        "height": 223,
+        "width": 447
+      },
+      "id": "1267d062-2f96-481c-a53a-3fec44b5b31d",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        920,
+        100
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-05-05T05:08:38.000Z",
+  "versionId": "770ff72b-a378-48a3-b2f7-0f94f3d70880"
+}
