@@ -1,0 +1,41 @@
+{
+  "active": false,
+  "connections": {},
+  "createdAt": "2024-01-06T02:44:43.261Z",
+  "id": "FTFlw2pMQVMO9Kj6",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Twitch Live to Social Media",
+  "nodes": [
+    {
+      "parameters": {
+        "channel_name": "snachodog"
+      },
+      "id": "3fbd7f71-eeb0-4938-9b8a-442ce4dca2ad",
+      "name": "Twitch Trigger",
+      "type": "@r3-dev/n8n-nodes-twitch.twitchTrigger",
+      "typeVersion": 1,
+      "position": [
+        820,
+        380
+      ],
+      "webhookId": "4a1f9c58-cf96-4275-9edd-f46ea0328102",
+      "credentials": {
+        "twitchApi": {
+          "id": "IFSovKf5tUTZ3j0j",
+          "name": "Twitch account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-02-15T17:36:11.000Z",
+  "versionId": "95a068fa-775b-4527-ade5-a6ae82476c9b"
+}
