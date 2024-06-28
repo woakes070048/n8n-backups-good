@@ -1,0 +1,36 @@
+{
+  "active": false,
+  "connections": {},
+  "createdAt": "2024-05-11T20:24:53.015Z",
+  "id": "77ZOGLv5upFpmT05",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Bookstack",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "a7f37da7-2444-4d5c-bfd7-fd9bd9606e59",
+        "options": {}
+      },
+      "id": "96f51073-5f74-47fc-92a9-efd435bc75a1",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        820,
+        400
+      ],
+      "webhookId": "a7f37da7-2444-4d5c-bfd7-fd9bd9606e59"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-05-11T21:11:55.000Z",
+  "versionId": "8eb08efd-a2fd-4760-9cad-af148696d784"
+}
