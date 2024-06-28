@@ -1,0 +1,143 @@
+{
+  "active": false,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Image": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-05-05T20:26:29.750Z",
+  "id": "tGXIZa0sM4xDPXug",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Canva Infographic Generator",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        420,
+        180
+      ],
+      "id": "d43be3dc-f3c3-4e89-8937-7db2c2bb1019"
+    },
+    {
+      "parameters": {
+        "path": "d3421273-b2cb-443c-83e2-e9454fd6c96e",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        420,
+        360
+      ],
+      "webhookId": "d3421273-b2cb-443c-83e2-e9454fd6c96e",
+      "id": "debb7ea0-629e-4171-bcd4-e759b5c76d27"
+    },
+    {
+      "parameters": {
+        "url": "https://s3.amazonaws.com/my-template-image.png",
+        "responseFormat": "file",
+        "options": {}
+      },
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        640,
+        360
+      ],
+      "id": "6ed5028e-2339-4de2-9b6b-7a72b45f833b"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "text": "={{$json[\"query\"][\"stat\"]}}",
+        "fontSize": 96,
+        "positionX": 380,
+        "positionY": 1000,
+        "options": {
+          "font": "/usr/share/fonts/truetype/msttcorefonts/Trebuchet_MS_Bold.ttf",
+          "format": "png"
+        }
+      },
+      "name": "Edit Image",
+      "type": "n8n-nodes-base.editImage",
+      "typeVersion": 1,
+      "position": [
+        860,
+        360
+      ],
+      "id": "e955cda3-d28d-480d-bd64-7cbe565352a2"
+    },
+    {
+      "parameters": {
+        "respondWith": "binary",
+        "options": {}
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        360
+      ],
+      "id": "1a504b8f-871a-4bef-bbeb-1ddb16de1e79"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-05-05T20:26:29.750Z",
+  "versionId": "b1c3a634-607e-4cc3-bf37-bdb58b044a80"
+}
