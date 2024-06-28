@@ -1,0 +1,101 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking \"Test workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Monday.com",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Monday.com": {
+      "main": [
+        [
+          {
+            "node": "Twilio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-05-05T01:32:52.344Z",
+  "id": "IA4iXj6FcMBJP562",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Text Reminder to Choteau Lions Club",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "e0fce135-9370-4350-b280-bcef5cdaad6d",
+      "name": "When clicking \"Test workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        380,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getAll",
+        "boardId": "4360602385",
+        "groupId": "topics",
+        "returnAll": true
+      },
+      "id": "163fe478-c667-42e6-a0b0-41c67b50f573",
+      "name": "Monday.com",
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        600,
+        200
+      ],
+      "credentials": {
+        "mondayComApi": {
+          "id": "0ADyue9uaPNpcRPX",
+          "name": "Choteau Lions Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "call",
+        "from": "+18333381638",
+        "to": "=+14062034679",
+        "message": "Hello Steve, there is a meeting of the Choteau Lions Club tomorrow night. Hope to see you there!",
+        "options": {}
+      },
+      "id": "96f12129-2c04-4b47-822d-81fd769a0d15",
+      "name": "Twilio",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        840,
+        200
+      ],
+      "credentials": {
+        "twilioApi": {
+          "id": "yDWmTq6cGZ7HdSfL",
+          "name": "Twilio account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-05-05T05:09:23.000Z",
+  "versionId": "89291cc8-2c9e-4871-815c-de7a7645e43e"
+}
