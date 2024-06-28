@@ -1,0 +1,66 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking \"Test workflow\"": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-05-10T01:55:08.202Z",
+  "id": "SHeLdLNi1FJ930f4",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Opalstack",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "323ef9bd-9167-42be-8b0d-499d719648ca",
+      "name": "When clicking \"Test workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        820,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://my.opalstack.com/api/v1/osuser/list/",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "cf244e72-5b1a-4956-80fb-e107662dc553",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1040,
+        400
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "WcMrkqtT6uzOyCNi",
+          "name": "Opalstack"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-05-11T21:12:07.000Z",
+  "versionId": "35387c16-60b1-4bfb-aa72-e25131d42f82"
+}
