@@ -1,0 +1,63 @@
+{
+  "active": false,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-04-30T03:43:37.229Z",
+  "id": "T5zvs2mZIqE8EUpj",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Automated Congratulations",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "id": "fc3b2fad-b9a3-4108-b4a1-05fab51f61a5",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        220,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "f23181a7-e3af-4630-b0eb-20727d95fde3",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        800,
+        320
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-04-30T03:51:08.000Z",
+  "versionId": "85f80a67-9bbf-4ad0-b656-e503e50d037d"
+}
