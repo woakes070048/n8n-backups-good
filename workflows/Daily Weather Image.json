@@ -1,0 +1,393 @@
+{
+  "active": false,
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "OpenWeatherMap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeatherMap": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Image": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Function1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function1": {
+      "main": [
+        [
+          {
+            "node": "Edit Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-05-05T19:59:27.131Z",
+  "id": "gxrvp259UnbBEGek",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Daily Weather Image",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        660,
+        200
+      ],
+      "id": "9fa57c1e-193a-49a0-b3ce-22d251167cfa"
+    },
+    {
+      "parameters": {
+        "url": "=http://ip-api.com/json/{{$json[\"headers\"][\"x-forwarded-for\"]}}",
+        "options": {}
+      },
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        880,
+        360
+      ],
+      "id": "91ef9816-3e35-4171-8f57-8e1e786d3256"
+    },
+    {
+      "parameters": {
+        "locationSelection": "coordinates",
+        "latitude": "={{$json[\"lat\"]}}",
+        "longitude": "={{$json[\"lon\"]}}",
+        "language": "={{$json[\"countryCode\"].toLowerCase()}}"
+      },
+      "name": "OpenWeatherMap",
+      "type": "n8n-nodes-base.openWeatherMap",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        360
+      ],
+      "id": "0de2c335-223f-4619-bae0-0592fc09a67b",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "YW0UsBKG4f6mknK2",
+          "name": "OpenWeatherMap account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "binary",
+        "responseDataSource": "set",
+        "inputFieldName": "weather",
+        "options": {}
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        600
+      ],
+      "id": "4ff59a40-8f57-4a3b-907d-f80c79f49020"
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "https://discord.com/api/webhooks/1233217359909752873/rQQ-QxlIM1bYQPGRgLRZb8wgx326-4D4oVvZQXEcL_r97UnF0Yr7mH1uVtCJM4X_O74c",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={{$json[\"discord\"]}}"
+      },
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1700,
+        240
+      ],
+      "id": "c1b39768-bd01-4ec8-8321-eb04e9d970c0"
+    },
+    {
+      "parameters": {
+        "operation": "multiStep",
+        "dataPropertyName": "weather",
+        "operations": {
+          "operations": [
+            {
+              "operation": "create",
+              "width": 400,
+              "height": 200
+            },
+            {
+              "operation": "border",
+              "borderWidth": 5,
+              "borderHeight": 5,
+              "borderColor": "#848383"
+            },
+            {
+              "operation": "composite",
+              "dataPropertyNameComposite": "icon",
+              "positionX": 10,
+              "positionY": 10
+            },
+            {
+              "operation": "text",
+              "text": "={{$json[\"main\"][\"temp\"]}}°C",
+              "fontSize": 48,
+              "positionX": 85,
+              "positionY": 75
+            },
+            {
+              "operation": "text",
+              "text": "={{$json[\"weather\"][0][\"description\"]}}",
+              "positionX": 35,
+              "positionY": 105
+            },
+            {
+              "operation": "text",
+              "text": "={{$json[\"name\"]}} at {{new Intl.DisplayNames([$json.sys.country], {type: 'region'}).of($json[\"sys\"][\"country\"])}}",
+              "fontSize": 10,
+              "positionX": "={{400 - ($json[\"name\"] + \" at \" +new Intl.DisplayNames([$json.sys.country], {type: 'region'}).of($json[\"sys\"][\"country\"])).length * 5}}",
+              "positionY": 25
+            },
+            {
+              "operation": "text",
+              "text": "=Wind: {{$json[\"wind\"][\"speed\"]}} [m/s]",
+              "fontSize": 15,
+              "positionX": 270
+            },
+            {
+              "operation": "text",
+              "text": "=Humidity: {{$json[\"main\"][\"humidity\"]}}%",
+              "fontSize": 15,
+              "positionX": 270,
+              "positionY": 75
+            },
+            {
+              "operation": "text",
+              "text": "=Informations from: {{$json[\"additionals\"][\"time\"]}}\nSunset: {{$json[\"additionals\"][\"sunset\"]}}\nSunrise: {{$json[\"additionals\"][\"sunrise\"]}}",
+              "fontSize": 15,
+              "positionX": 35,
+              "positionY": 140
+            },
+            {
+              "operation": "composite",
+              "dataPropertyNameComposite": "flag",
+              "positionX": "={{400 - 20 - ($json[\"name\"] + \" at \" +new Intl.DisplayNames([$json.sys.country], {type: 'region'}).of($json[\"sys\"][\"country\"])).length * 5}}",
+              "positionY": 16
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Edit Image",
+      "type": "n8n-nodes-base.editImage",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        600
+      ],
+      "id": "5ef0a3ab-a5cd-4933-8131-74f8c446552a"
+    },
+    {
+      "parameters": {
+        "url": "=https://openweathermap.org/img/wn/{{$json.weather[0].icon}}@2x.png",
+        "responseFormat": "file",
+        "dataPropertyName": "icon",
+        "options": {}
+      },
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        600
+      ],
+      "id": "e8322d1f-94a3-4ac1-a25f-4864f5fb0c1f"
+    },
+    {
+      "parameters": {
+        "url": "=https://flagcdn.com/16x12/{{$json[\"sys\"][\"country\"].toLowerCase()}}.png",
+        "responseFormat": "file",
+        "dataPropertyName": "flag",
+        "options": {}
+      },
+      "name": "HTTP Request3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        600
+      ],
+      "id": "79ff2a89-00a1-4884-a147-ca1235937acf"
+    },
+    {
+      "parameters": {
+        "functionCode": "const moment = require(\"moment\")\n\nreturn items.map(item => {\n  item.json.additionals = {\n    \"time\": time = moment.unix(item.json.dt).add(item.json.timezone, \"s\").format('lll') + \" UTC\" + (item.json.timezone >= 0 ? \"+\" : \"-\") + (item.json.timezone).toString() / 3600 + \"H\",\n    \"sunset\": moment.unix(item.json.sys.sunset).add(item.json.timezone, \"s\").format('lll') + \" UTC\" + (item.json.timezone >= 0 ? \"+\" : \"-\") + (item.json.timezone).toString() / 3600 + \"H\",\n    \"sunrise\": moment.unix(item.json.sys.sunrise).add(item.json.timezone, \"s\").format('lll') + \" UTC\" + (item.json.timezone >= 0 ? \"+\" : \"-\") + (item.json.timezone).toString() / 3600 + \"H\",\n  }\n\n  return item;\n})"
+      },
+      "name": "Function1",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        600
+      ],
+      "id": "f44d3d74-f418-4c5e-955d-680e3bea8484"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$node[\"Webhook\"].json[\"query\"][\"discord\"] == undefined || $node[\"Webhook\"].json[\"query\"][\"discord\"] == false}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        360
+      ],
+      "id": "ca07109f-7abd-4e98-931e-361896360314"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const timezone = item.json.timezone / 3600; // Przeliczanie strefy czasowej na godziny\n  const timezoneSign = timezone >= 0 ? \"+\" : \"-\";\n  const formattedTimezone = `UTC${timezoneSign}${Math.abs(timezone)}H`;\n\n  // Time, sunrise and sunset conversion and formatting\n  item.json.additionals = {\n    \"time\": DateTime.fromSeconds(item.json.dt).plus({seconds: item.json.timezone}).toFormat('LLL dd, yyyy HH:mm') + \" \" + formattedTimezone,\n    \"sunset\": DateTime.fromSeconds(item.json.sys.sunset).plus({seconds: item.json.timezone}).toFormat('LLL dd, yyyy HH:mm') + \" \" + formattedTimezone,\n    \"sunrise\": DateTime.fromSeconds(item.json.sys.sunrise).plus({seconds: item.json.timezone}).toFormat('LLL dd, yyyy HH:mm') + \" \" + formattedTimezone,\n  };\n\n  return item;\n});"
+      },
+      "id": "53e2c5ef-da62-445d-96d7-bdc9006cf9c2",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "path": "weatherInfo",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        660,
+        360
+      ],
+      "webhookId": "40c33c20-3f0b-4712-8492-11ff5eca8e1c",
+      "id": "3aa15fb3-ee16-4b13-a080-4f07fb8a7632"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-05-05T20:14:01.000Z",
+  "versionId": "def33601-de88-4a38-b168-6f7c6a62ac43"
+}
