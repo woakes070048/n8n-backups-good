@@ -1,0 +1,104 @@
+{
+  "active": false,
+  "connections": {
+    "New Order ChoteauLions.Club": {
+      "main": [
+        [
+          {
+            "node": "Gun Raffle",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "TOTM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-04-30T03:21:57.433Z",
+  "id": "vmAoGVsRbIxZslDd",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Lions Club WooCommerce Sort Email to Committee Chair",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "2bb55856-0648-40fc-993b-1afcd0c71a3d",
+              "leftValue": "item",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "9cb1683d-0382-4ebb-a9bf-bbe653d9effb",
+      "name": "Gun Raffle",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        740,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "4655764c-c948-4118-9dd6-96dfa5bb904b",
+      "name": "TOTM",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        740,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "event": "order.created"
+      },
+      "id": "7aa23ea2-539f-44bc-a95f-b65491887d83",
+      "name": "New Order ChoteauLions.Club",
+      "type": "n8n-nodes-base.wooCommerceTrigger",
+      "typeVersion": 1,
+      "position": [
+        480,
+        300
+      ],
+      "webhookId": "f4476dc2-bd8a-4951-ab60-230dcc1ee0d5",
+      "credentials": {
+        "wooCommerceApi": {
+          "id": "5qlMlrIL0U7ACnPP",
+          "name": "WooCommerce account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-04-30T03:33:04.000Z",
+  "versionId": "85d13626-1007-4cec-9819-a50fcf86f7cd"
+}
