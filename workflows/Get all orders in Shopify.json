@@ -1,0 +1,67 @@
+{
+  "active": false,
+  "connections": {
+    "On clicking 'execute'": {
+      "main": [
+        [
+          {
+            "node": "Shopify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-04-28T04:32:49.214Z",
+  "id": "2ysW7P6VwH1dTU0C",
+  "meta": {
+    "templateId": "548",
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Get all orders in Shopify",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "On clicking 'execute'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        380,
+        240
+      ],
+      "typeVersion": 1,
+      "id": "cc627eac-ad98-4c44-9d17-db01ab9256ea"
+    },
+    {
+      "parameters": {
+        "authentication": "accessToken",
+        "operation": "getAll",
+        "returnAll": true,
+        "options": {}
+      },
+      "name": "Shopify",
+      "type": "n8n-nodes-base.shopify",
+      "position": [
+        580,
+        240
+      ],
+      "typeVersion": 1,
+      "id": "41602f02-3ea6-4830-8c8b-413f88374f4a",
+      "credentials": {
+        "shopifyAccessTokenApi": {
+          "id": "Yev9XgTnMsXAhkSY",
+          "name": "Shopify Access Token account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-04-28T05:08:39.000Z",
+  "versionId": "8dd676b5-22bf-45ee-be17-d177ea0fdef6"
+}
