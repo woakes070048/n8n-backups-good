@@ -1,0 +1,204 @@
+{
+  "active": false,
+  "connections": {
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "List feeds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Feed Read": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Cycle through feeds",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Feed Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List feeds": {
+      "main": [
+        [
+          {
+            "node": "Cycle through feeds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cycle through feeds": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-05-05T20:27:44.198Z",
+  "id": "x18X9DJRTNerxHU2",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Google Alert to Discord",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        800
+      ],
+      "id": "d4f7d3f4-e6a8-4de3-8bb4-b72a440603c6"
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 7
+            }
+          ]
+        }
+      },
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        960
+      ],
+      "id": "b9074df9-5aa5-4160-be07-58f8d109489f"
+    },
+    {
+      "parameters": {
+        "url": "={{$json[\"feed\"]}}",
+        "options": {}
+      },
+      "name": "RSS Feed Read",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [
+        920,
+        980
+      ],
+      "id": "24d10b70-c814-45b2-b687-6e8873ef9fe4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"feed\"]}}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        540,
+        960
+      ],
+      "id": "b363829a-98a5-4efc-8a41-7ca8c73665aa"
+    },
+    {
+      "parameters": {
+        "functionCode": "\nitems[0].json.feeds = [\n                    \"https://www.google.com/alerts/feeds/11101001141714162588/12504960177925078167\"]\n\nreturn items;"
+      },
+      "name": "List feeds",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        80,
+        960
+      ],
+      "id": "5ec29f22-9228-4ac3-9440-8ed44a0a56e8"
+    },
+    {
+      "parameters": {
+        "functionCode": "items[0].json.feed = \"\";\n\nif(items[0].json.feeds.length > 0){\n  items[0].json.feed = items[0].json.feeds.pop(); \n}\n\nreturn items;"
+      },
+      "name": "Cycle through feeds",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        320,
+        960
+      ],
+      "id": "dfd98780-ffca-4399-b350-ccbd328ca45e"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=",
+        "options": {}
+      },
+      "id": "f523e3f7-7382-488d-b7ca-303bda5ee6ab",
+      "name": "Discord",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        980
+      ],
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "LGINJWZpnUcmlUFn",
+          "name": "Discord Webhook account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "List feeds": [
+      {
+        "json": {
+          "feeds": [
+            "https://www.google.com/alerts/feeds/11101001141714162588/12504960177925078167"
+          ]
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-05-05T20:31:33.000Z",
+  "versionId": "416dca13-1283-4a7a-be14-632d911851d3"
+}
