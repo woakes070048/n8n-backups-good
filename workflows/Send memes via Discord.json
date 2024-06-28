@@ -1,0 +1,164 @@
+{
+  "active": false,
+  "connections": {
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cron1": {
+      "main": [
+        [
+          {
+            "node": "Discord1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cron2": {
+      "main": [
+        [
+          {
+            "node": "Discord2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-04-28T03:01:15.941Z",
+  "id": "Du8olkt4yfq2AUKa",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "templateId": "683"
+  },
+  "name": "Send memes via Discord",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyWeek",
+              "hour": 9,
+              "weekday": "6"
+            }
+          ]
+        }
+      },
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        380,
+        400
+      ],
+      "typeVersion": 1,
+      "id": "1aabf342-294d-4959-8153-4285999f46d7"
+    },
+    {
+      "parameters": {
+        "webhookUri": "https://discordapp.com/api/webhooks/756967134353162281/wEzyl5MrY2FqHdp5mb8npM5qhp0MVAe9X8SiIA-UMUPpv52FwaOeZGWTtlfQSs-MV3eB",
+        "text": "It's Wednesday, my dudes!\nhttps://i.kym-cdn.com/entries/icons/original/000/020/016/wednesdaymydudeswide.jpg",
+        "options": {}
+      },
+      "name": "Discord",
+      "type": "n8n-nodes-base.discord",
+      "position": [
+        580,
+        400
+      ],
+      "typeVersion": 1,
+      "id": "c73d0b27-9c68-45e0-ac48-0081f919075a"
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyWeek",
+              "hour": 9,
+              "weekday": "5"
+            }
+          ]
+        }
+      },
+      "name": "Cron1",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        380,
+        240
+      ],
+      "typeVersion": 1,
+      "id": "cf19bf3b-93a7-4392-86ed-183ef27d9d87"
+    },
+    {
+      "parameters": {
+        "webhookUri": "https://discordapp.com/api/webhooks/756967134353162281/wEzyl5MrY2FqHdp5mb8npM5qhp0MVAe9X8SiIA-UMUPpv52FwaOeZGWTtlfQSs-MV3eB",
+        "text": "It's Friday, Friday\nGotta get down on Friday!\nhttps://tenor.com/view/rebecca-black-friday-tgif-gif-4051598",
+        "options": {}
+      },
+      "name": "Discord1",
+      "type": "n8n-nodes-base.discord",
+      "position": [
+        580,
+        240
+      ],
+      "typeVersion": 1,
+      "id": "6b1bafac-10bb-4eb3-a3d8-ecbe7bd51f15"
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 30,
+              "unit": "minutes"
+            }
+          ]
+        }
+      },
+      "name": "Cron2",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        750,
+        400
+      ],
+      "typeVersion": 1,
+      "id": "5e9e2ef6-0651-4dbd-ba8a-daec1b5d1690"
+    },
+    {
+      "parameters": {
+        "webhookUri": "https://discordapp.com/api/webhooks/756967134353162281/wEzyl5MrY2FqHdp5mb8npM5qhp0MVAe9X8SiIA-UMUPpv52FwaOeZGWTtlfQSs-MV3eB",
+        "text": "And with this, I sleep. Good night Pogger friends :)\nhttps://cdn.discordapp.com/attachments/756602216621539409/757054027518443600/93109046_836460460092895_6176715527851028509_n.jpg",
+        "options": {}
+      },
+      "name": "Discord2",
+      "type": "n8n-nodes-base.discord",
+      "position": [
+        950,
+        400
+      ],
+      "typeVersion": 1,
+      "id": "b1ba52ce-f48b-483a-a8ba-cb88358f3424"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-04-28T03:01:15.941Z",
+  "versionId": "0a6ff327-30a0-45ca-883f-c6e210fc454e"
+}
