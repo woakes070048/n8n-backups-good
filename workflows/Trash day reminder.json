@@ -1,0 +1,97 @@
+{
+  "active": false,
+  "connections": {
+    "Function": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bin day": {
+      "main": [
+        [
+          {
+            "node": "Function",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-05-05T21:06:24.754Z",
+  "id": "HBqR2QNhcGyPoGKo",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Trash day reminder",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        460,
+        580
+      ],
+      "id": "803975c7-89aa-4c88-9646-2574146dbe13"
+    },
+    {
+      "parameters": {
+        "functionCode": "\nfunction getNextDayOfTheWeek(dayName, excludeToday = true, refDate = new Date()) {\n    const dayOfWeek = [\"sun\",\"mon\",\"tue\",\"wed\",\"thu\",\"fri\",\"sat\"]\n                      .indexOf(dayName.slice(0,3).toLowerCase());\n    if (dayOfWeek < 0) return;\n    refDate.setHours(0,0,0,0);\n    refDate.setDate(refDate.getDate() + +!!excludeToday + \n                    (dayOfWeek + 7 - refDate.getDay() - +!!excludeToday) % 7);\n    return refDate;\n}\n\nfunction daysBetweenTwoDates(startDate, endDate) {\n  var millisecondsPerDay = 24 * 60 * 60 * 1000;\n  return Math.round((endDate - startDate) / millisecondsPerDay);\n}\n\nfunction isItFortnightlySince(days) {\n  return days % 14 === 0;\n}\n\nconst INITIAL_BIN_DAY = new Date(2022, 0, 4);\nconst nextBinDay = getNextDayOfTheWeek(\"Tuesday\", false);\n\nconst daysBetweenBinDays = daysBetweenTwoDates(INITIAL_BIN_DAY, nextBinDay);\n\nvar binColor = \"\";\nif(isItFortnightlySince(daysBetweenBinDays)){\n  binColor = \"Blue and Green\";\n} else{\n  binColor = \"Yellow\";\n}\n\nitems[0].json = {announce: \"Put out the \" + binColor + \" bins.\"};\n\n\nreturn items;"
+      },
+      "name": "Function",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        680,
+        740
+      ],
+      "id": "6685ab08-27e5-4d75-b568-23faab40c394"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        920,
+        740
+      ],
+      "id": "073329cb-ee4e-48d7-a8f6-9572309548ad"
+    },
+    {
+      "parameters": {
+        "path": "925df1d9-a7d8d67c76d9",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Bin day",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        460,
+        740
+      ],
+      "webhookId": "925df1d9-a7d8d67c76d9",
+      "id": "e51d5016-3bd3-44aa-9601-d0f8ccceb2f5"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-05-05T21:52:43.000Z",
+  "versionId": "f8a485bc-b0ce-46ef-9e75-45a99545a1b5"
+}
