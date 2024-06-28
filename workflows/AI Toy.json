@@ -1,0 +1,160 @@
+{
+  "active": false,
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wolfram Alpha1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-04-23T04:35:21.926Z",
+  "id": "RGNZX6X3IuGct7gL",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "AI Toy",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "15ef3c92-e0e3-4426-98de-ef552feb1e4e",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.5,
+      "position": [
+        720,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "01dcd880-e0e1-4ed9-b3c5-411e7aaf7edb",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        500,
+        540
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "2b1e87ef-83e4-48de-9ec3-a991269fef79",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.2,
+      "position": [
+        840,
+        580
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "e05902bb-965a-4c6b-8550-fd1795586231",
+      "name": "Chat Trigger",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1,
+      "position": [
+        460,
+        200
+      ],
+      "webhookId": "d8550abe-b1e8-4e8c-a7a0-c61e4c1b1478"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "id": "13148bfc-78ad-4cb3-aefa-a45279ba3a27",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        1260,
+        200
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "977baf5d-b0a4-47cf-99dd-2782518259b6",
+      "name": "Wolfram Alpha1",
+      "type": "@n8n/n8n-nodes-langchain.toolWolframAlpha",
+      "typeVersion": 1,
+      "position": [
+        1140,
+        560
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-04-23T04:37:09.000Z",
+  "versionId": "9f2f45c6-fe0f-4219-b374-10e7d5608986"
+}
