@@ -1,0 +1,489 @@
+{
+  "active": false,
+  "connections": {
+    "Retrieve Webhook Transaction": {
+      "main": [
+        [
+          {
+            "node": "If Transaction has Attachment(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Transaction has Attachment(s)": {
+      "main": [
+        [
+          {
+            "node": "Get Attachment Information",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Attachments! (No Op)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Attachment Information": {
+      "main": [
+        [
+          {
+            "node": "Set Loop Counter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Attachment(s)": {
+      "main": [
+        [
+          {
+            "node": "Increment Loop Counter",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Rename Attachment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Firefly III New Transaction": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Webhook Transaction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post Docs to Paperless": {
+      "main": [
+        [
+          {
+            "node": "If Okay",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Firefly III Updated Transaction": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Webhook Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Webhook Update": {
+      "main": [
+        [
+          {
+            "node": "If Transaction has Attachment(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rename Attachment": {
+      "main": [
+        [
+          {
+            "node": "Post Docs to Paperless",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Loop Counter": {
+      "main": [
+        [
+          {
+            "node": "Download Attachment(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Done": {
+      "main": [
+        [
+          {
+            "node": "Complete! (No Op)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download Attachment(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Increment Loop Counter": {
+      "main": [
+        [
+          {
+            "node": "If Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Okay": {
+      "main": [
+        [
+          {
+            "node": "Complete! (No Op)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "No Op (Everything is done via Webhooks)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-07-01T15:52:48.351Z",
+  "id": "6j2cenp1FfTuGxg2",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "firefly paperless",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        460,
+        460
+      ],
+      "id": "49e78def-e50a-4cef-9761-c5205540a35b"
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "url": "=https://firefly.example.com/api/v1/transactions/{{$json[\"body\"][\"content\"][\"id\"]}}",
+        "options": {}
+      },
+      "name": "Retrieve Webhook Transaction",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        640,
+        660
+      ],
+      "id": "05ccf277-b81c-409f-92ff-d01a35eb4360"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json[\"data\"][\"attributes\"][\"transactions\"][0][\"has_attachments\"]}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "If Transaction has Attachment(s)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        860,
+        760
+      ],
+      "id": "ca17b858-b7a5-485e-a32e-a71a90b0cd77"
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "url": "=https://firefly.example.com/api/v1/transactions/{{$json[\"data\"][\"id\"]}}/attachments",
+        "options": {}
+      },
+      "name": "Get Attachment Information",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        1080,
+        660
+      ],
+      "id": "36e8a4d6-79fe-449a-ac54-a9aa84009c2e"
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "url": "={{$node[\"Get Attachment Information\"].json[\"data\"][$json[\"counter\"]][\"attributes\"][\"download_url\"]}}",
+        "responseFormat": "file",
+        "options": {}
+      },
+      "name": "Download Attachment(s)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        660
+      ],
+      "id": "66f3ed51-b454-4530-9970-6ff4ffd8a723"
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "requestMethod": "POST",
+        "url": "https://paperless.example.com/api/documents/post_document/",
+        "responseFormat": "string",
+        "dataPropertyName": "status",
+        "jsonParameters": true,
+        "options": {
+          "bodyContentType": "multipart-form-data"
+        },
+        "sendBinaryData": true,
+        "binaryPropertyName": "=document:data"
+      },
+      "name": "Post Docs to Paperless",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        1800,
+        460
+      ],
+      "id": "4c255a91-e1bf-4b4f-86db-7ea7c6eca96b"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "your-webhook-url-path",
+        "options": {}
+      },
+      "name": "Firefly III New Transaction",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        460,
+        660
+      ],
+      "webhookId": "your-webhook-url-path",
+      "id": "5849e56f-6248-4e36-a6c8-ab698336e9b1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "your-webhook-url-path",
+        "options": {}
+      },
+      "name": "Firefly III Updated Transaction",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        460,
+        860
+      ],
+      "webhookId": "your-webhook-url-path",
+      "id": "a5154811-f144-403e-87a5-64b0690c8745"
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "url": "=https://firefly.example.com/api/v1/transactions/{{$json[\"body\"][\"content\"][\"id\"]}}",
+        "options": {}
+      },
+      "name": "Retrieve Webhook Update",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        640,
+        860
+      ],
+      "id": "ba1f6a48-c5ce-4f70-9e97-8b0a317146b2"
+    },
+    {
+      "parameters": {},
+      "name": "Complete! (No Op)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2200,
+        540
+      ],
+      "id": "13d6df3e-c90a-4276-a695-9ff7d2d98c2d"
+    },
+    {
+      "parameters": {},
+      "name": "No Attachments! (No Op)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        860
+      ],
+      "id": "a86381ee-f17a-42c2-a788-a2fe425c0b94"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Code here will run only once, no matter how many input items there are.\n// More info and help: https://docs.n8n.io/nodes/n8n-nodes-base.function\n// Tip: You can use luxon for dates and $jmespath for querying JSON structures\n\n// Rename the input binary file to new_file_name. Contains some logic to determine how to\n// name the files, depending on if there are multiple attachments.\nif ($node[\"Get Attachment Information\"].json[\"data\"].length === 1) {\n  // If the transaction only has one attachment\n  var new_file_name = \n  $node[\"If Transaction has Attachment(s)\"].json[\"data\"][\"attributes\"][\"transactions\"][0][\"description\"];\n} else {\n  // Else if the transaction has multiple attachments\n  // We will name each file with a number, starting from 1. The number comes from the counter.\n  let suffix = String($json[\"counter\"] + 1);\n  var new_file_name =\n  $node[\"If Transaction has Attachment(s)\"].json[\"data\"][\"attributes\"][\"transactions\"][0][\"description\"]\n  + \" \" + suffix;\n}\n\nconst data = Object.assign(items[0].binary.data, {fileName:new_file_name});\nreturn [\n  {\n    json:{},\n    binary: {\n      data:data\n    }\n  }\n]\n\n"
+      },
+      "name": "Rename Attachment",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1620,
+        460
+      ],
+      "id": "90df19b9-d6aa-406d-b461-96cd478e9190"
+    },
+    {
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "counter",
+              "value": "={{0}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Set Loop Counter",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        1260,
+        660
+      ],
+      "id": "ba892176-5d70-470c-911a-5c7f4eedd6db"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json[\"counter\"]}}",
+              "operation": "equal",
+              "value2": "={{$node[\"Get Attachment Information\"].json[\"data\"].length}}"
+            }
+          ]
+        }
+      },
+      "name": "If Done",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1980,
+        660
+      ],
+      "id": "4444b583-8cd1-4972-9f8d-cf21e3ba2c9d"
+    },
+    {
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "=counter",
+              "value": "={{$json[\"counter\"] + 1  }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Increment Loop Counter",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        1620,
+        660
+      ],
+      "id": "5151f10c-50d4-4487-9412-2e5ae3cf2584"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"status\"]}}",
+              "value2": "OK"
+            }
+          ]
+        }
+      },
+      "name": "If Okay",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1980,
+        460
+      ],
+      "id": "759305e6-a3f8-46c3-afbf-f9af0f1342e0"
+    },
+    {
+      "parameters": {},
+      "name": "No Op (Everything is done via Webhooks)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        640,
+        460
+      ],
+      "id": "72b8cfb5-2599-4dad-97f4-d727614837f9"
+    },
+    {
+      "parameters": {
+        "content": "[Guide to Workflow Automation: How I use Firefly III, Paperless-ngx, and n8n to Painlessly Manage Receipts\n](https://shen.hong.io/guide-to-workflow-automation-using-n8n-to-manage-receipts/)"
+      },
+      "id": "024aafe2-02ea-42ce-8a5c-cf3b750b0c87",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        340,
+        180
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-07-01T15:53:38.000Z",
+  "versionId": "01b98153-3998-423f-8777-5b4f2d82f3af"
+}
